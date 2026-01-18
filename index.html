@@ -4,12 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workshop Registration</title>
+
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function(){
-      emailjs.init("YREhAVJ63dUHTtPM8"); // Your EmailJS Public Key
+      emailjs.init("elrJSMoAoA6pFmbg3"); // PUBLIC KEY
     })();
   </script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,7 +21,6 @@
       padding: 0;
     }
     .container {
-      width: 100%;
       max-width: 600px;
       margin: 30px auto;
       background: #fff;
@@ -26,10 +28,15 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+    .logo {
+      display: block;
+      margin: 0 auto 20px auto;
+      max-width: 180px;
+    }
     h2 {
       text-align: center;
-      color: #333;
       margin-bottom: 20px;
+      color: #333;
     }
     label {
       font-weight: bold;
@@ -37,7 +44,7 @@
       display: block;
       color: #444;
     }
-    input, select {
+    input {
       width: 100%;
       padding: 10px;
       margin-top: 6px;
@@ -52,21 +59,18 @@
       border-radius: 8px;
       border: 1px solid #ddd;
     }
-    .till-box strong {
-      color: #222;
-    }
     .till-number {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       color: #8B0000;
     }
-    .checkbox-group {
-      display: flex;
-      align-items: center;
+    .warning {
+      background: #fff3cd;
+      padding: 12px;
+      border-radius: 8px;
       margin-top: 15px;
-    }
-    .checkbox-group input {
-      margin-right: 8px;
+      font-size: 14px;
+      color: #333;
     }
     button {
       margin-top: 20px;
@@ -82,84 +86,87 @@
     button:hover {
       background: #a80000;
     }
-    .logo {
-      display: block;
-      margin: 0 auto 20px auto;
-      max-width: 180px;
-    }
   </style>
 </head>
+
 <body>
   <div class="container">
-    <img src="https://i.postimg.cc/xkSyctFw/logo.png" alt="Dalton Grand Hotel Logo" class="logo">
+
+    <!-- LOGO -->
+    <img 
+      src="https://i.postimg.cc/xkSyctFw/logo.png" 
+      alt="Dalton Grand Hotel Logo" 
+      class="logo"
+    >
 
     <h2>Workshop Registration</h2>
+
     <form id="registrationForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" required>
+      <label>Full Name</label>
+      <input type="text" name="name" required>
 
-      <label for="bank">Bank/Company</label>
-      <input type="text" id="bank" name="bank" required>
+      <label>Bank / Company</label>
+      <input type="text" name="bank" required>
 
-      <label for="job">Job Title/Department</label>
-      <input type="text" id="job" name="job" required>
+      <label>Job Title / Department</label>
+      <input type="text" name="job" required>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
+      <label>Email Address</label>
+      <input type="email" name="email" required>
 
-      <label for="phone">Phone</label>
-      <input type="text" id="phone" name="phone" required>
-
-      <label for="payment_method">Payment Responsibility</label>
-      <select id="payment_method" name="payment_method" required>
-        <option value="">-- Select --</option>
-        <option value="Participant (KES 1500)">Participant (KES 1500)</option>
-        <option value="Bank (KES 4500)">Bank (KES 4500)</option>
-      </select>
+      <label>Phone Number</label>
+      <input type="text" name="phone" required>
 
       <div class="till-box">
-        <strong>💳 M-Pesa Till Number:</strong><br>
-        <span class="till-number">4995594</span>
-        <p style="margin:8px 0 0 0; font-size:13px; color:#444;">
-          Please make payment to the above Till Number before completing registration.
+        <strong>💳 M-Pesa Till Number</strong><br>
+        <span class="till-number">4995596</span>
+        <p style="margin-top:8px;">
+          💰 <strong>Workshop Fee:</strong> KES 4,500 (Fixed)
         </p>
       </div>
 
-      <label for="payment_amount">Amount Paid (KES)</label>
-      <input type="number" id="payment_amount" name="payment_amount" placeholder="Enter amount paid" required>
-
-      <div class="checkbox-group">
-        <input type="checkbox" id="confirm" name="confirm" required>
-        <label for="confirm">I confirm I have made the payment</label>
+      <div class="warning">
+        ⚠️ Please enter the <strong>M-Pesa Transaction Code</strong> received after payment.  
+        Registration will be confirmed after verification.
       </div>
 
-      <button type="submit">Register</button>
+      <label>M-Pesa Transaction Code</label>
+      <input
+        type="text"
+        name="transaction_code"
+        placeholder="e.g. QKJ8H2XYZ"
+        required
+      >
+
+      <button type="submit">Submit Registration</button>
     </form>
   </div>
 
   <script>
-    document.getElementById("registrationForm").addEventListener("submit", function(event){
-      event.preventDefault();
+    document.getElementById("registrationForm")
+      .addEventListener("submit", function(e) {
+        e.preventDefault();
 
-      const form = event.target;
+        const form = e.target;
 
-      // Participant email
-      emailjs.sendForm("service_3h2na46", "template_8ydtq9v", form)
-      .then(() => {
-        console.log("Participant email sent!");
-      }, (err) => {
-        console.error("Error sending participant email:", err);
+        // ADMIN EMAIL
+        emailjs.sendForm(
+          "service_t12spfb",
+          "template_lr0vwq2",
+          form
+        );
+
+        // PARTICIPANT EMAIL
+        emailjs.sendForm(
+          "service_t12spfb",
+          "template_uj4wrub",
+          form
+        ).then(() => {
+          alert("✅ Registration submitted. Payment will be verified shortly.");
+          form.reset();
+        });
       });
-
-      // Admin email
-      emailjs.sendForm("service_3h2na46", "template_4k0j36g", form)
-      .then(() => {
-        alert("✅ Registration successful! Confirmation email has been sent.");
-        form.reset();
-      }, (err) => {
-        console.error("Error sending admin email:", err);
-      });
-    });
   </script>
+
 </body>
-        </html>
+</html>
